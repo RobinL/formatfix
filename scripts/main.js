@@ -11,38 +11,27 @@ function processData(data) {
 	myArray = toTwoDimenstions(data);
 	//myArray is now a two dimensional array with each format as the first index, and each part of the format as the second index
 	
-
+	
 	//Group formats if they contain the same values
 	myArray = toGroups(myArray);
 
-	//Now we want to take the groups, and in each one, get a list of variables to which this format applies
+	//Now we want to take the groups, and in each one, get a list of variables to which this format applies, and a format
 	
 
-	var myArray2 = {};
 
-	_.forEach(myArray, function(element, index, list){
+	var myObject = {};
 
-			myArray2[index] = {};
-			myArray2[index].varslist = [];
-			myArray2[index].format = [];
-
-		_.forEach(myArray[index], function (element2, index2, list2) {
-			
-
-			myArray2[index].varslist.push(element2[0]);
-			myArray2[index].format = _.last(element2,element2.length-1);
-
-		})
-	
-	});
-	
+	myObject = toObject(myArray);
 	debugger;
-	
 
+	var defineString = textDefineFormats(myObject);
+	$("#div1").html(defineString)
 
+	var applyString = textApplyFormats(myObject);
+	$("#div2").html(applyString);
 
-
-
+	var tabString = tabulateFormats(myObject);
+	$("#div3").html(tabString);
 }
 
 function toTwoDimenstions(data) {
@@ -75,8 +64,7 @@ function toTwoDimenstions(data) {
 
 };
 
-function toGroups(arr)
-{
+function toGroups(arr) {
 	return _.groupBy(arr, function(elem) {
 		var first = _.first(elem);
 		return _.reduce(elem, function(memo, elem2) {
@@ -84,4 +72,92 @@ function toGroups(arr)
 			}
 			, "");
 	})
+}
+
+function toObject(arr) {
+
+	var myObject = {};
+
+	_.forEach(arr, function(element, index, list){
+
+			
+			
+			myObject["fmt"+element[0][0]] = {};
+			myObject["fmt"+element[0][0]].varslist = [];
+			myObject["fmt"+element[0][0]].format = [];
+
+		_.forEach(arr[index], function (element2, index2, list2) {
+			
+
+			myObject["fmt"+element[0][0]].varslist.push(element2[0]);
+			myObject["fmt"+element[0][0]].format = _.last(element2,element2.length-1);
+
+		})
+	
+	});
+
+	return myObject;
+}
+
+function textDefineFormats(obj) {
+	var returnString = "";
+
+	_.forEach(obj, function(element, index, list){
+		
+		returnString += "VALUE " + index + "<br> ";
+		
+		_.forEach(element.format, function(element2,index2,list2) {
+			returnString += "&nbsp&nbsp" + element2 + " <br>";
+		})
+
+		returnString += "<br>"
+	
+	})
+	
+
+	return returnString;
+
+}
+
+function textApplyFormats(obj) {
+
+	var returnString = "";
+
+	_.forEach(obj, function(element, index, list){
+		//format Q2AAPERIODTYPEcp Q2AAPERIODTYPE.;
+		_.forEach(element.varslist, function(element2,index2,list2) {
+			returnString += "format " + element2 + " " + index + ".;<br> ";
+		})	
+	})
+
+	return returnString;
+
+}
+
+function tabulateFormats(obj) {
+
+
+var returnString = "<table>";
+
+	_.forEach(obj, function(element, index, list){
+		
+		returnString += "<tr><td>VALUE " + index + "<br> ";
+		
+		_.forEach(element.format, function(element2,index2,list2) {
+			returnString += "&nbsp&nbsp" + element2 + " <br>";
+		})
+
+		returnString += "<br></td></tr>"
+	
+	})
+
+	returnString +="</table>"
+	debugger;
+	return returnString
+
+
+}
+
+function tabulateFormatsDetail(obj) {
+
 }
