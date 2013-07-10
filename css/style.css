@@ -574,8 +574,8 @@
 
 
 
-#div1, #div2, #div3  {
-  float: left;
+#div1, #div2, #div3,#div4,#div5 {
+ 
   margin: 50px;
   padding: 20;
   max-height: 500px;

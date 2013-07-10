@@ -1,6 +1,6 @@
 $(function() {
 
-	$.get('ajax/formatssmall.txt', processData)
+	$.get('ajax/formats.txt', processData)
 
 
 });
@@ -25,20 +25,37 @@ function processData(data) {
 	debugger;
 
 	var defineString = textDefineFormats(myObject);
-	$("#div1").html(defineString)
+	$("#div1").html(defineString);
+
+	
+
+	
+	
+
 
 	var applyString = textApplyFormats(myObject);
 	$("#div2").html(applyString);
 
+
 	var tabString = tabulateFormats(myObject);
 	$("#div3").html(tabString);
+
+	$("#div3").select()
+
+	var tabString2 = tabulateFormatsDetail(myObject);
+	$("#div4").html(tabString2);
+
+	var tabString3 = tabulateFormatsVariableLink(myObject);
+	$("#div5").html(tabString3);
+	
+
 }
 
 function toTwoDimenstions(data) {
 
 	//takes initial values, splits by the word 'value' and newlines, and trims
 	var myArray = [];
-	myArray = data.split(/\n\svalue/);
+	myArray = data.split(/\n\s{1,}value/);
 
 	myArray = _.filter(myArray, function(text) {
 
@@ -141,10 +158,10 @@ var returnString = "<table>";
 
 	_.forEach(obj, function(element, index, list){
 		
-		returnString += "<tr><td>VALUE " + index + "<br> ";
+		returnString += "<tr><td>" + index + "<br></td><td> ";
 		
 		_.forEach(element.format, function(element2,index2,list2) {
-			returnString += "&nbsp&nbsp" + element2 + " <br>";
+			returnString += element2 + " <br>";
 		})
 
 		returnString += "<br></td></tr>"
@@ -160,4 +177,49 @@ var returnString = "<table>";
 
 function tabulateFormatsDetail(obj) {
 
+	var returnString = "<table>";
+
+	_.forEach(obj, function(element, index, list){
+		
+		
+		
+		_.forEach(element.format, function(element2,index2,list2) {
+			returnString += "<tr><td>" + index + "<br></td><td> ";
+			returnString += element2 + " <br>";
+		})
+
+		returnString += "</td></tr>"
+	
+	})
+
+	returnString +="</table>"
+
+	return returnString
+
+
 }
+
+function tabulateFormatsVariableLink(obj) {
+
+	var returnString = "<table>";
+
+	_.forEach(obj, function(element, index, list){
+		
+		
+		
+		_.forEach(element.varslist, function(element2,index2,list2) {
+			returnString += "<tr><td>" + index + "<br></td><td> ";
+			returnString += element2 + " <br>";
+		})
+
+		returnString += "</td></tr>"
+	
+	})
+
+	returnString +="</table>"
+
+	return returnString
+
+
+}
+
