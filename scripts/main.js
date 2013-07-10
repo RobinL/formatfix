@@ -158,13 +158,13 @@ var returnString = "<table>";
 
 	_.forEach(obj, function(element, index, list){
 		
-		returnString += "<tr><td>" + index + "<br></td><td> ";
+		returnString += "<tr><td>" + index + "</td><td> ";
 		
 		_.forEach(element.format, function(element2,index2,list2) {
 			returnString += element2 + " <br>";
 		})
 
-		returnString += "<br></td></tr>"
+		returnString += "</td></tr>"
 	
 	})
 
@@ -184,11 +184,16 @@ function tabulateFormatsDetail(obj) {
 		
 		
 		_.forEach(element.format, function(element2,index2,list2) {
-			returnString += "<tr><td>" + index + "<br></td><td> ";
-			returnString += element2 + " <br>";
+			returnString += "<tr><td>" + index + "</td>";
+			returnString += "<td>"
+			returnString += element2.match(/\d{1,}/) ;
+			returnString += "</td><td>"
+			returnString += element2.match(/'.{1,}/) ;
+			returnString += "</td>"
+			
 		})
 
-		returnString += "</td></tr>"
+		returnString += "</tr>"
 	
 	})
 
@@ -208,8 +213,8 @@ function tabulateFormatsVariableLink(obj) {
 		
 		
 		_.forEach(element.varslist, function(element2,index2,list2) {
-			returnString += "<tr><td>" + index + "<br></td><td> ";
-			returnString += element2 + " <br>";
+			returnString += "<tr><td>" + index + "</td><td> ";
+			returnString += element2;
 		})
 
 		returnString += "</td></tr>"
